@@ -1,0 +1,115 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+struct Product
+{
+	string name;
+	int price;
+	int macros[3];
+	float calories;
+};
+
+void calculateCalories(Product a[], int n) 
+{
+    for (int i=0; i<n; i++) 
+	{
+        a[i].calories =4*a[i].macros[0] +9*a[i].macros[1] +4*a[i].macros[2];
+    }
+}
+
+void selectionSortByCalories(Product a[], int n)
+{
+    for(int i=0;i<n-1;i++)
+    {
+        int maxIndex=i;
+        
+        for(int j=i+1;j<n;j++)
+            if(a[j].calories>a[maxIndex].calories)
+                maxIndex=j;
+
+        swap(a[i],a[maxIndex]);
+    }
+}
+
+void gnomeSortByPrice(Product a[], int n)
+{
+    for(int i=0;i<n;)
+    {
+        if(i==0 || a[i-1].price<=a[i].price)
+            i++;
+        else
+        {
+            swap(a[i],a[i-1]);
+            i--;
+        }
+    }
+}
+
+void SearchByPrice(Product a[], int n, int searchPrice)
+{
+    bool found=false;
+
+    for(int i=0;i<n;i++)
+    {
+        if(a[i].price==searchPrice)
+        {
+            cout<<a[i].name<<" "<<a[i].price<<" "<<a[i].calories<<endl;
+            found=true;
+        }
+    }
+
+    if(!found)
+        cout<<"Product with this price was not found"<<endl;
+}
+
+void printArray(Product a[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        cout<<a[i].name<<", ";
+        cout<<a[i].price<<"grn, ";
+        cout<<"proteins: "<<a[i].macros[0]<<", ";
+        cout<<"fats: "<<a[i].macros[1]<<", ";
+        cout<<"carbs: "<<a[i].macros[2]<<", ";
+        cout<<"calories: "<<a[i].calories<<endl;
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    int n=4;
+
+    Product products[4]=
+    {
+        {"Apple",25,{1,0,14},0},
+        {"Bread",40,{8,3,50},0},
+        {"Cheese",120,{25,30,2},0},
+        {"Milk",35,{3,4,5},0}
+    };
+
+    Product productsCopy[4];
+
+    calculateCalories(products,n);
+
+    for(int i=0;i<n;i++)
+        productsCopy[i]=products[i];
+
+    selectionSortByCalories(products,n);
+    cout<<"Sorted by calories descending:"<<endl;
+    printArray(products,n);
+
+    gnomeSortByPrice(productsCopy,n);
+    cout<<"Sorted by price ascending:"<<endl;
+    printArray(productsCopy,n);
+
+    int searchPrice;
+    cout<<"Enter price for search: ";
+    cin>>searchPrice;
+
+    cout<<"Search result:"<<endl;
+    SearchByPrice(products,n,searchPrice);
+
+    return 0;
+}
