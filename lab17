@@ -1,0 +1,134 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+struct Student
+{
+	string surname;
+	int group;
+	int mark[5];
+	float averageMark;
+};
+
+void calculateAverage(Student a[], int n) 
+{
+    for (int i=0; i<n; i++) 
+	{
+        int sum=0;
+        for (int j=0; j<4; j++) 
+		{
+            sum+=a[i].mark[j];
+        }
+        a[i].averageMark=sum/4.0;
+    }
+}
+
+void bubbleSortByAverage(Student a[], int n) 
+{
+    for (int i=0; i<n; i++) 
+	{
+        for (int j=0; j<n-i-1; j++) 
+		{
+            if (a[j].averageMark > a[j+1].averageMark) 
+			{
+                swap(a[j], a[j+1]);
+            }
+        }
+    }
+}
+
+void insertionSortByGroup(Student a[], int n) 
+{
+    for (int i=1; i<n; i++) 
+	{
+        Student key = a[i];
+        int j=i-1;
+        while (j>=0 && a[j].group < key.group) 
+		{
+            a[j+1] = a[j];
+            j--;
+        }
+        a[j+1] = key;
+    }
+}
+
+void binarySearch(Student a[], int n, double searchAverage) {
+    int left=0, right=n-1;
+    bool found=false;
+
+    while (left<=right) {
+        int mid=left+(right-left)/2;
+        if (a[mid].averageMark == searchAverage) 
+		{
+            found=true;
+            int temp=mid;
+            while (temp>=0 && a[temp].averageMark == searchAverage) 
+			{
+                cout<<a[temp].surname<<" "<<a[temp].group<<endl;
+                temp--;
+            }
+            temp=mid+1;
+            while (temp<n && a[temp].averageMark == searchAverage) 
+			{
+                cout<<a[temp].surname<<" "<<a[temp].group<<endl;
+                temp++;
+            }
+            break;
+        }
+        if (a[mid].averageMark < searchAverage) 
+		{
+            left=mid+1;
+        } else {
+            right=mid-1;
+        }
+    }
+
+    if (!found) {
+        cout<<"Student with this average mark was not found"<<endl;
+    }
+
+}
+
+void printArray(Student a[], int n) 
+{
+    for (int i=0; i<n; i++) 
+	{
+        cout<<a[i].surname<<" "<<a[i].group<<" "<<a[i].averageMark<<endl;
+    }
+    cout<<endl;
+}
+
+int main() {
+    int n=4;
+    Student students[4]={
+        {"Ivan", 121, {5, 4, 2, 4}, 0.0},
+        {"Oleg", 117, {3, 3, 1, 4}, 0.0},
+        {"Inna", 144, {4, 5, 4, 5}, 0.0},
+        {"Liza", 144, {5, 5, 5, 4}, 0.0},
+    };
+
+    Student studentsCopy[4];
+
+    calculateAverage(students, n);
+
+    for (int i=0; i<n; i++) {
+        studentsCopy[i]=students[i];
+    }
+
+    bubbleSortByAverage(students, n);
+    cout<<"Sorted by average mark:"<<endl;
+    printArray(students, n);
+
+    insertionSortByGroup(studentsCopy, n);
+    cout<<"Sorted by group:"<<endl;
+    printArray(studentsCopy, n);
+
+    double searchAverage;
+    cout<<"Enter average mark for search: ";
+    cin>>searchAverage;
+    
+    cout<<"Search result:"<<endl;
+    binarySearch(students,n,searchAverage);
+
+    return 0;
+}
