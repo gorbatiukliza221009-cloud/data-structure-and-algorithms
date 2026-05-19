@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double volumeMeat = 1;
+    double volumeFlour = 1.5;
+    double volumeMilk = 2;
+    double volumeSugar = 1;
+
+    int caloriesMeat = 1500;
+    int caloriesFlour = 5000;
+    int caloriesMilk = 5000;
+    int caloriesSugar = 4000;
+
+    int maxWeight = 35;
+    int maxVolume = 45;
+
+    int bestMeat = 0;
+    int bestFlour = 0;
+    int bestMilk = 0;
+    int bestSugar = 0;
+    int maxCalories = 0;
+
+    for(int meat = 0; meat <= 35; meat++)
+    {
+        for(int flour = 0; flour <= 35; flour++)
+        {
+            for(int milk = 0; milk <= 35; milk++)
+            {
+                for(int sugar = 0; sugar <= 35; sugar++)
+                {
+                    int totalWeight = meat + flour + milk + sugar;
+
+                    double totalVolume =
+                        meat * volumeMeat +
+                        flour * volumeFlour +
+                        milk * volumeMilk +
+                        sugar * volumeSugar;
+
+                    if(totalWeight <= maxWeight &&
+                       totalVolume <= maxVolume &&
+                       meat >= flour * 2 &&
+                       flour >= milk &&
+                       milk >= sugar * 8)
+                    {
+                        int totalCalories =
+                            meat * caloriesMeat +
+                            flour * caloriesFlour +
+                            milk * caloriesMilk +
+                            sugar * caloriesSugar;
+
+                        if(totalCalories > maxCalories)
+                        {
+                            maxCalories = totalCalories;
+
+                            bestMeat = meat;
+                            bestFlour = flour;
+                            bestMilk = milk;
+                            bestSugar = sugar;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    cout << "Najkrashchyi variant:" << endl;
+    cout << "Miaso: " << bestMeat << " kg" << endl;
+    cout << "Muka: " << bestFlour << " kg" << endl;
+    cout << "Moloko: " << bestMilk << " kg" << endl;
+    cout << "Tsukor: " << bestSugar << " kg" << endl;
+    cout << "Maksymalna kaloriinist: " << maxCalories << " kkal" << endl;
+
+    return 0;
+}
