@@ -1,0 +1,98 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+void showVector(vector<int> v)
+{
+    for(int x : v)
+    {
+        cout << x << " ";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    vector<int> numbers;
+    ifstream file("numbers.txt");
+
+    if(!file)
+    {
+        cout << "File not found" << endl;
+        return 0;
+    }
+
+    int n;
+    cout << "Enter amount of numbers: ";
+    cin >> n;
+
+    int value;
+    for(int i = 0; i < n && file >> value; i++)
+    {
+        numbers.push_back(value);
+    }
+
+    cout << "Original vector:" << endl;
+    showVector(numbers);
+
+    int size = numbers.size();
+    int part = size / 3;
+
+    sort(numbers.begin(), numbers.begin() + part, greater<int>());
+    sort(numbers.begin() + 2 * part, numbers.end());
+
+    cout << "After sorting:" << endl;
+    showVector(numbers);
+
+    auto last = unique(numbers.begin(), numbers.end());
+    numbers.erase(last, numbers.end());
+
+    cout << "After deleting consecutive duplicates:" << endl;
+    showVector(numbers);
+
+    auto border = partition(numbers.begin(), numbers.end(), [](int x)
+    {
+        return x < 10;
+    });
+
+    cout << "After partition by 10:" << endl;
+    showVector(numbers);
+
+    for_each(border, numbers.end(), [](int &x)
+    {
+        x += 100;
+    });
+
+    cout << "After increasing numbers >= 10 by 100:" << endl;
+    showVector(numbers);
+
+    int maxValue = *max_element(numbers.begin(), numbers.end());
+    int minValue = *min_element(numbers.begin(), numbers.end());
+
+    replace_if(numbers.begin(), numbers.end(), [maxValue](int x)
+    {
+        return x > 100;
+    }, maxValue);
+
+    replace_if(numbers.begin(), numbers.end(), [minValue](int x)
+    {
+        return x < -100;
+    }, minValue);
+
+    cout << "After replacing values > 100 and < -100:" << endl;
+    showVector(numbers);
+
+    numbers.erase(remove_if(numbers.begin(), numbers.end(), [](int x)
+    {
+        return x >= -5 && x <= 5;
+    }), numbers.end());
+
+    cout << "After deleting numbers from [-5; 5]:" << endl;
+    showVector(numbers);
+
+    file.close();
+
+    return 0;
+}
