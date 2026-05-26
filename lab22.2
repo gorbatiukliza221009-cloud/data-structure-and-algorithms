@@ -1,0 +1,82 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+void showVector(vector<string> words)
+{
+    for(string word : words)
+    {
+        cout << word << endl;
+    }
+}
+
+bool startsWithVowel(string word)
+{
+    if(word.empty())
+    {
+        return false;
+    }
+
+    char first = tolower(word[0]);
+
+    return first == 'a' || first == 'e' || first == 'i' ||
+           first == 'o' || first == 'u' || first == 'y';
+}
+
+int main()
+{
+    vector<string> names;
+    ifstream file("names.txt");
+
+    if(!file)
+    {
+        cout << "File not found" << endl;
+        return 0;
+    }
+
+    string name;
+
+    while(file >> name)
+    {
+        names.push_back(name);
+    }
+
+    cout << "Names from file:" << endl;
+    showVector(names);
+
+    string searchName;
+    cout << "Enter name for search: ";
+    cin >> searchName;
+
+    int amount = count(names.begin(), names.end(), searchName);
+
+    cout << "Amount: " << amount << endl;
+
+    for(string &word : names)
+    {
+        transform(word.begin(), word.end(), word.begin(), ::toupper);
+    }
+
+    cout << "Upper case:" << endl;
+    showVector(names);
+
+    for(string &word : names)
+    {
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
+    }
+
+    cout << "Lower case:" << endl;
+    showVector(names);
+
+    stable_partition(names.begin(), names.end(), startsWithVowel);
+
+    cout << "Vowels first:" << endl;
+    showVector(names);
+
+    file.close();
+
+    return 0;
+}
