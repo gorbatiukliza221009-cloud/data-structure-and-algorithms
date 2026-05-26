@@ -1,0 +1,42 @@
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+struct Request
+{
+    int priority;
+    string category;
+    string text;
+
+    bool operator<(const Request& other) const
+    {
+        return priority < other.priority;
+    }
+};
+
+int main()
+{
+    priority_queue<Request> requests;
+
+    requests.push({3, "High", "Server is not working"});
+    requests.push({1, "Low", "Change profile picture"});
+    requests.push({2, "Medium", "Problem with password"});
+    requests.push({3, "High", "Database error"});
+    requests.push({1, "Low", "Change language"});
+
+    cout << "Processing requests:" << endl;
+
+    while(!requests.empty())
+    {
+        Request current = requests.top();
+
+        cout << "Category: " << current.category << endl;
+        cout << "Request: " << current.text << endl;
+        cout << endl;
+
+        requests.pop();
+    }
+
+    return 0;
+}
