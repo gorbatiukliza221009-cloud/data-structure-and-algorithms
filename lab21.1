@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double kSanitarka = 1.0;
+    double kNurse = 6.0 / 5;
+    double kDoctor = 8.0 / 5;
+    double kPharmacyHead = 9.0 / 5;
+    double kDepartmentHead = 2.0;
+    double kChiefDoctor = 12.0 / 5;
+    double kHouseholdHead = 13.0 / 5;
+    double kHospitalHead = 3.0;
+
+    int sanitarka = 7;
+    int nurse = 10;
+    int doctor = 10;
+    int pharmacyHead = 1;
+    int departmentHead = 3;
+    int chiefDoctor = 1;
+    int householdHead = 1;
+    int hospitalHead = 1;
+
+    int totalMoney = 380000;
+
+    double sumK =
+        sanitarka * kSanitarka +
+        nurse * kNurse +
+        doctor * kDoctor +
+        pharmacyHead * kPharmacyHead +
+        departmentHead * kDepartmentHead +
+        chiefDoctor * kChiefDoctor +
+        householdHead * kHouseholdHead +
+        hospitalHead * kHospitalHead;
+
+    int salarySanitarka = totalMoney / sumK;
+
+    int salaryNurse = salarySanitarka * kNurse;
+    int salaryDoctor = salarySanitarka * kDoctor;
+    int salaryPharmacyHead = salarySanitarka * kPharmacyHead;
+    int salaryDepartmentHead = salarySanitarka * kDepartmentHead;
+    int salaryChiefDoctor = salarySanitarka * kChiefDoctor;
+    int salaryHouseholdHead = salarySanitarka * kHouseholdHead;
+    int salaryHospitalHead = salarySanitarka * kHospitalHead;
+
+    int total =
+        salarySanitarka * sanitarka +
+        salaryNurse * nurse +
+        salaryDoctor * doctor +
+        salaryPharmacyHead * pharmacyHead +
+        salaryDepartmentHead * departmentHead +
+        salaryChiefDoctor * chiefDoctor +
+        salaryHouseholdHead * householdHead +
+        salaryHospitalHead * hospitalHead;
+
+    cout << "Sanitarka salary: " << salarySanitarka << endl;
+    cout << "Nurse salary: " << salaryNurse << endl;
+    cout << "Doctor salary: " << salaryDoctor << endl;
+    cout << "Pharmacy head salary: " << salaryPharmacyHead << endl;
+    cout << "Department head salary: " << salaryDepartmentHead << endl;
+    cout << "Chief doctor salary: " << salaryChiefDoctor << endl;
+    cout << "Household head salary: " << salaryHouseholdHead << endl;
+    cout << "Hospital head salary: " << salaryHospitalHead << endl;
+
+    cout << endl;
+    cout << "Total salary fund: " << total << endl;
+
+    return 0;
+}
