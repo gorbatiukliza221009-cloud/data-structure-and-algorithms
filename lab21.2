@@ -1,0 +1,145 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void northWestMethod(int cost[3][3])
+{
+    int supply[3] = {1500, 1900, 1600};
+    int demand[3] = {1800, 1200, 2000};
+
+    int plan[3][3] = {0};
+
+    int i = 0;
+    int j = 0;
+
+    while(i < 3 && j < 3)
+    {
+        int value;
+
+        if(supply[i] < demand[j])
+            value = supply[i];
+        else
+            value = demand[j];
+
+        plan[i][j] = value;
+
+        supply[i] -= value;
+        demand[j] -= value;
+
+        if(supply[i] == 0)
+            i++;
+
+        if(demand[j] == 0)
+            j++;
+    }
+
+    int totalCost = 0;
+
+    cout << "North-West Corner Method:" << endl;
+    cout << setw(6) << " "
+    << setw(6) << "M1"
+    << setw(6) << "M2"
+    << setw(6) << "M3" << endl;
+
+    for(int r = 0; r < 3; r++)
+    {
+        cout << setw(6) << ("S" + to_string(r + 1));
+
+        for(int c = 0; c < 3; c++)
+        {
+            cout << setw(6) << plan[r][c];
+            totalCost += plan[r][c] * cost[r][c];
+        }
+
+        cout << endl;
+    }
+
+    cout << "Total cost: " << totalCost << endl;
+    cout << endl;
+}
+
+void minimumCostMethod(int cost[3][3])
+{
+    int supply[3] = {1500, 1900, 1600};
+    int demand[3] = {1800, 1200, 2000};
+
+    int plan[3][3] = {0};
+
+    while(true)
+    {
+        int minCost = 1000000;
+        int row = -1;
+        int col = -1;
+
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                if(supply[i] > 0 &&
+                   demand[j] > 0 &&
+                   cost[i][j] < minCost)
+                {
+                    minCost = cost[i][j];
+                    row = i;
+                    col = j;
+                }
+            }
+        }
+
+        if(row == -1 || col == -1)
+            break;
+
+        int value;
+
+        if(supply[row] < demand[col])
+            value = supply[row];
+        else
+            value = demand[col];
+
+        plan[row][col] = value;
+
+        supply[row] -= value;
+        demand[col] -= value;
+    }
+
+    int totalCost = 0;
+
+    cout << "Minimum Cost Method:" << endl;
+    cout << "Optimal delivery plan:" << endl;
+
+    cout << setw(6) << " "
+    << setw(6) << "M1"
+    << setw(6) << "M2"
+    << setw(6) << "M3" << endl;
+
+    for(int r = 0; r < 3; r++)
+    {
+        cout << setw(6) << ("S" + to_string(r + 1));
+
+        for(int c = 0; c < 3; c++)
+        {
+            cout << setw(6) << plan[r][c];
+            totalCost += plan[r][c] * cost[r][c];
+        }
+
+        cout << endl;
+    }
+    
+	cout << "Total cost: " << totalCost << endl;
+}
+
+int main()
+{
+    int cost[3][3] =
+    {
+        {8, 7, 2},
+        {1, 4, 3},
+        {5, 1, 6}
+    };
+
+    northWestMethod(cost);
+
+    minimumCostMethod(cost);
+
+    return 0;
+}
